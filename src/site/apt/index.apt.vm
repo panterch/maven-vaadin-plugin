@@ -1,0 +1,40 @@
+Maven Vaadin Plugin
+
+  This plugin allows to build Vaadin Addons in the zip format as specified at
+  {{http://dev.vaadin.com/wiki/VaadinAddon}}.
+  
+  To use the plugin include it in your pom.xml:
+  
++---
+
+<pluginRepositories>
+  <pluginRepository>
+    <id>vaadin-addons-plugins</id>
+    <url>http://maven.vaadin.com/vaadin-addons</url>
+  </pluginRepository>
+</pluginRepositories>
+
+
+<build>
+  <plugins>
+    <plugin>
+      <inherited>true</inherited>
+      <groupId>org.vaadin.addons.maven.plugins</groupId>
+      <artifactId>maven-vaadin-plugin</artifactId>
+      <executions>
+        <execution>
+          <phase>install</phase>
+          <goals>
+            <goal>addon</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+
+
++---
+
+  Check the {{{./plugin-info.html}Plugin Documentation}} for configuration options.
+  
