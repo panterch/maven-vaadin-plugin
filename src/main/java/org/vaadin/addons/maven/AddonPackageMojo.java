@@ -55,7 +55,7 @@ public class AddonPackageMojo extends AbstractMojo {
    * 
    * @parameter expression="${project.build.directory}/site"
    */
-  private File siteOutputDirectory;
+  private File addonDocDirectory;
 
   /**
    * Location of additional sources to include in the addon package.
@@ -131,8 +131,7 @@ public class AddonPackageMojo extends AbstractMojo {
           + manifest.getAbsolutePath(), e);
     }
 
-    String addonFilename = finalName + "."
-        + packaging;
+    String addonFilename = finalName + ".jar";
     copyFile(addonContent, addonFilename);
     String addonJavadoc = finalName + "-javadoc.jar";
     copyFile(addonContent, addonJavadoc);
@@ -141,17 +140,17 @@ public class AddonPackageMojo extends AbstractMojo {
 
     // copy site if available
     
-    File docsDirectory = null;
-    if (siteOutputDirectory.exists()) {
-      docsDirectory = new File(addonDirectory, "docs");
-      docsDirectory.mkdirs();
-      log.info("Copying site to " + docsDirectory);
-      try {
-        FileUtils.copyDirectoryStructure(siteOutputDirectory, docsDirectory);
-      } catch (IOException e) {
-        throw new MojoExecutionException("Failed to copy site", e);
-      }
-    }
+//    File docsDirectory = null;
+//    if (addonDocDirectory.exists()) {
+//      docsDirectory = new File(addonDirectory, "docs");
+//      docsDirectory.mkdirs();
+//      log.info("Copying site to " + docsDirectory);
+//      try {
+//        FileUtils.copyDirectoryStructure(addonDocDirectory, docsDirectory);
+//      } catch (IOException e) {
+//        throw new MojoExecutionException("Failed to copy site", e);
+//      }
+//    }
 
     // copy additional addon contents
     // if (addonSourceDirectory.exists()) {
@@ -167,8 +166,10 @@ public class AddonPackageMojo extends AbstractMojo {
     JarArchiver ja = new JarArchiver();
     try {
       ja.addDirectory(addonContent, finalName + "/");
-      if(docsDirectory != null) {
-        ja.addDirectory(docsDirectory, "docs/");
+      log.info("Checking docs from " + addonDocDirectory);
+      if(addonDocDirectory != null && addonDocDirectory.exists()) {
+        log.info("Including docs from " + addonDocDirectory);
+        ja.addDirectory(addonDocDirectory, "docs/");
       }
       if(addonSourceDirectory.exists()) {
         ja.addDirectory(addonSourceDirectory);

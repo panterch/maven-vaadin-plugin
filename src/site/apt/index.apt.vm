@@ -36,5 +36,45 @@ Maven Vaadin Plugin
 
 +---
 
-  Check the {{{./plugin-info.html}Plugin Documentation}} for configuration options.
+  Additionally you must add the necessary manifest entries to the addon jar like this
+  (as this is not done automatically yet):
+  
++---
+...
+<plugin>
+  <artifactId>maven-jar-plugin</artifactId>
+  <configuration>
+    <archive>
+      <manifestEntries>
+        <Vaadin-Package-Version>1</Vaadin-Package-Version>
+        <Implementation-Title>${project.name}</Implementation-Title>
+        <Implementation-Version>${project.version}</Implementation-Version>
+      </manifestEntries>
+    </archive>
+  </configuration>
+</plugin>
+...
++---
+
+  To create an Addon ZIP run:
+  
++---
+mvn clean site install
+mvn vaadin:addon
++---
+
+  The plugin will look for sources and javadocs and include them if available.
+  You may also include additional resources by prodiving 
+  <<<-DaddonSourceDirectory=path/to/addon/source>>>;
+  the default directory <<<src/vaadin/addon>>> - you only have to specify the 
+  directory if it differs in your project.
+  
+  You'll find the resulting addon ZIP in the folder:
+
++---
+target/vaadin-addon/<finalName>-<version>.zip
++---
+  
+  
+  Check the {{{./plugin-info.html}Plugin Documentation}} for further configuration options.
   

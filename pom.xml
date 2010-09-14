@@ -7,7 +7,8 @@
   <version>0.1.0</version>
   <packaging>maven-plugin</packaging>
 
-  <name>maven-vaadin-plugin Maven Plugin</name>
+  <name>Maven Vaadin Plugin</name>
+  <description>Maven 2 Plugin to create Vaadin Addon Zip files</description>
   <url>http://github.com/panter/maven-vaadin-plugin</url>
 
   <licenses>
@@ -16,6 +17,10 @@
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
+  
+  <scm>
+    <connection>scm:git:https://github.com/panter/maven-vaadin-plugin</connection>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,6 +78,19 @@
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Vaadin-Package-Version>1</Vaadin-Package-Version>
+              <Implementation-Title>${project.name}</Implementation-Title>
+              <Implementation-Version>${project.version}</Implementation-Version>
+            </manifestEntries>
+          </archive>
         </configuration>
       </plugin>
     
